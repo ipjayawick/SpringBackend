@@ -51,4 +51,10 @@ public class TaskController {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/filter")
+    public List<Task> filterTasks(@RequestParam(required = false) String status,
+                                  @RequestParam(required = false) String assignee) {
+        return taskService.filterTasks(status, assignee);
+    }
 }

@@ -19,8 +19,8 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository){
-        this.taskRepository=taskRepository;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
 
@@ -68,7 +68,7 @@ public class TaskService {
 
         // Send email if the assignee changed
         if (assigneeChanged && saved.getAssignee() != null) {
-            emailService.sendSimpleEmail(saved.getAssignee(), "Task assigned to you!","Title: "+saved.getTitle()+"\n"+"Description: "+saved.getDescription());
+            emailService.sendSimpleEmail(saved.getAssignee(), "Task assigned to you!", "Title: " + saved.getTitle() + "\n" + "Description: " + saved.getDescription());
 //            emailService.sendAssigneeNotification(saved.getAssignee(), saved.getTitle(), false);
         }
 
@@ -87,5 +87,17 @@ public class TaskService {
 
     public void deleteTask(String id) {
         taskRepository.deleteById(id);
+    }
+
+    public List<Task> filterTasks(String status, String assignee) {
+        if (status != null && assignee != null) {
+            return taskRepository.findByStatusAndAssignee(status, assignee);
+        } else if (status != null) {
+            return taskRepository.findByStatus(status);
+        } else if (assignee != null) {
+            return taskRepository.findByAssignee(assignee);
+        } else {
+            return taskRepository.findAll();
+        }
     }
 }

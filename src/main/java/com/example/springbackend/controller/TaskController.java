@@ -35,11 +35,17 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable String id, @RequestBody Task task) {
-        return taskService.updateTask(id, task)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+        // Use the service to update the task and check if it exists
+        Task updatedTask = taskService.updateTask(id, task);
 
+        // If task is null, it means the task was not found
+        if (updatedTask == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if task not found
+        }
+
+        // If task is found and updated, return the updated task with 200 OK
+        return ResponseEntity.ok(updatedTask);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         taskService.deleteTask(id);

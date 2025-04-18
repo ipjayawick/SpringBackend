@@ -21,48 +21,20 @@
 //@Configuration
 //@EnableWebSecurity
 //public class SecurityConfig {
-////    @Bean
-////    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-////        return http.csrf(customizer -> customizer.disable()).
-////                authorizeHttpRequests(request -> request.anyRequest().authenticated()).
-////                httpBasic(Customizer.withDefaults()).
-////                sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();
-////    }
-////
+//    private final UserDetailsService userDetailsService;
 //
-//    //navinreddy
-//    @Autowired
-//    private UserDetailsService userDetailsService;
+//    public SecurityConfig(UserDetailsService userDetailsService) {
+//        this.userDetailsService = userDetailsService;
+//    }
 //
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
 //        return http.csrf(customizer -> customizer.disable()).
-//                authorizeHttpRequests(request -> request.requestMatchers("/users/register").permitAll().anyRequest().authenticated()).
+//                authorizeHttpRequests(request -> request.anyRequest().authenticated()).
 //                httpBasic(Customizer.withDefaults()).
 //                sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
 //                build();
 //    }
-//
-//
-////    @Bean
-////    public UserDetailsService userDetailsService() {
-////
-////        UserDetails user1 = User
-////                .withDefaultPasswordEncoder()
-////                .username("kiran")
-////                .password("k@123")
-////                .roles("USER")
-////                .build();
-////
-////        UserDetails user2 = User
-////                .withDefaultPasswordEncoder()
-////                .username("harsh")
-////                .password("h@123")
-////                .roles("ADMIN")
-////                .build();
-////        return new InMemoryUserDetailsManager(user1, user2);
-////    }
 //
 //    @Bean
 //    public AuthenticationProvider authenticationProvider() {

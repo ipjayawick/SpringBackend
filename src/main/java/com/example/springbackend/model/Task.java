@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+//used lombok earlier. but since it is not working in the project, delomboked the annotations.
 @Document(collection = "tasks")
 @AllArgsConstructor
 public class Task {

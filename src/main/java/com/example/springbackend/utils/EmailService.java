@@ -1,18 +1,20 @@
 package com.example.springbackend.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-    public void sendSimpleEmail(String toEmail,
-                                String subject,
-                                String body
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void sendEmail(String toEmail,
+                          String subject,
+                          String body
     ) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("fromemail@gmail.com");
@@ -21,7 +23,5 @@ public class EmailService {
         message.setSubject(subject);
         mailSender.send(message);
         System.out.println("Mail Send...");
-
-
     }
 }

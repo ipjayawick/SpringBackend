@@ -13,12 +13,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class TaskController {
 
+    private final TaskService taskService;
+
     @Autowired
-    private TaskService taskService;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    public ResponseEntity<List<Task>> getAllTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @GetMapping("/{id}")
@@ -29,23 +33,20 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        return taskService.createTask(task)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build()); // or another appropriate response
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable String id, @RequestBody Task task) {
-        // Use the service to update the task and check if it exists
-        Task updatedTask = taskService.updateTask(id, task);
-
-        // If task is null, it means the task was not found
-        if (updatedTask == null) {
-            return ResponseEntity.notFound().build(); // Return 404 if task not found
-        }
-
-        // If task is found and updated, return the updated task with 200 OK
-        return ResponseEntity.ok(updatedTask);
+        return taskService.updateTask(id, task)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {
         taskService.deleteTask(id);
@@ -53,8 +54,8 @@ public class TaskController {
     }
 
     @GetMapping("/filter")
-    public List<Task> filterTasks(@RequestParam(required = false) String status,
-                                  @RequestParam(required = false) String assignee) {
-        return taskService.filterTasks(status, assignee);
+    public ResponseEntity<List<Task>> filterTasks(@RequestParam(required = false) String status,
+                                                  @RequestParam(required = false) String assignee) {
+        return ResponseEntity.ok(taskService.filterTasks(status, assignee));
     }
 }

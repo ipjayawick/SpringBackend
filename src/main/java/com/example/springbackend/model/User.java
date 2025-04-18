@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+//used lombok earlier. but since it is not working in the project, delomboked the annotations.
 @Document(collection = "users")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,8 +16,8 @@ public class User {
     private String id;
     private String name;
     private String email;
-    private String password; // hashed password
-    private String role; // e.g., ROLE_USER, ROLE_ADMIN
+    private String password;
+    private String role;
 
     public String getId() {
         return this.id;
